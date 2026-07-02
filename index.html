@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controle do Exaustor Mundial</title>
+    <!-- Ajustado o título para o dispositivo 02 -->
+    <title>Controle do Acionamento 02</title>
 
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#222222">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="logogiglio.png">
+    <link class="apple-touch-icon" href="logogiglio.png">
 
     <script>
         // Registra o Service Worker para permitir a instalação no celular
@@ -106,11 +107,12 @@
     <h1>RESIDENCIAL COMENDADOR SILVIO GIGLIO</h1>
     <h1>Torre 02</h1>
     
-    <p>O status real do exaustor é: <span id="status-texto" style="font-weight: bold; font-size: 22px;">Carregando...</span></p>
+    <!-- Ajustado o texto de status para o dispositivo 02 -->
+    <p>O status real do dispositivo 02 é: <span id="status-texto" style="font-weight: bold; font-size: 22px;">Carregando...</span></p>
     
     <div class="container-botoes">
-        <button class="btn btn-ligar" onclick="ligarExaustor()">LIGAR</button>
-        <button class="btn btn-desligar" onclick="desligarExaustor()">DESLIGAR</button>
+        <button class="btn btn-ligar" onclick="ligarDispositivo()">LIGAR</button>
+        <button class="btn btn-desligar" onclick="desligarDispositivo()">DESLIGAR</button>
     </div>
 
     <div class="container-lampada">
@@ -119,7 +121,7 @@
     </div>
 
     <script>
-        // Configuração extraída do seu painel do Firebase
+        // Configuração mantida do seu Firebase original
         const firebaseConfig = {
             apiKey: "AIzaSyD0EuvxA9nmbB-D3Wls4pt9Bv5lB88Dd1g",
             authDomain: "acionamento-exaustor.firebaseapp.com",
@@ -135,8 +137,8 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // Escuta o feedback real enviado pelo ESP32 (/status_exaustor)
-        db.ref('/status_exaustor').on('value', (snapshot) => {
+        // ALTERADO: Agora escuta o status_acionamento_02
+        db.ref('/status_acionamento_02').on('value', (snapshot) => {
             const statusSensor = snapshot.val();
             const texto = document.getElementById('status-texto');
             const lampadaVisual = document.getElementById('lampada-visual');
@@ -148,7 +150,6 @@
                 return;
             }
 
-            // Tratamento lógico seguro (ignora problemas de acentuação do caractere 'ã')
             if (statusSensor.trim() === "funcionando") {
                 texto.innerText = "FUNCIONANDO";
                 texto.style.color = "#4CAF50";       
@@ -160,14 +161,14 @@
             }
         });
 
-        // Função do botão LIGAR: Envia o valor 1 para a nuvem
-        function ligarExaustor() {
-            db.ref('/').update({ lampada: 1 });
+        // ALTERADO: Envia o comando para 'lampada_02'
+        function ligarDispositivo() {
+            db.ref('/').update({ lampada_02: 1 });
         }
 
-        // Função do botão DESLIGAR: Envia o valor 0 para a nuvem
-        function desligarExaustor() {
-            db.ref('/').update({ lampada: 0 });
+        // ALTERADO: Envia o comando para 'lampada_02'
+        function desligarDispositivo() {
+            db.ref('/').update({ lampada_02: 0 });
         }
     </script>
 </body>
